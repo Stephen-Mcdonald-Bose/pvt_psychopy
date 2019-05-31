@@ -37,7 +37,7 @@
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="react_clock.reset()&amp;#10;rt = 0&amp;#10;s_rt = &quot;&quot;&amp;#10;# If user pressed the key before we begin, that's a falseStart.&amp;#10;# Skip this routine.&amp;#10;if falseStart:&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="rt = react_clock.getTime()&amp;#10;s_rt = &quot;{0:d}&quot;.format(int(1000*rt))" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="# trial_code update&amp;#10;rt = react_clock.getTime()&amp;#10;s_rt = &quot;{0:d}&quot;.format(int(1000*rt))" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -276,12 +276,12 @@
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="# Clear any pending keyboard events&amp;#10;event.clearEvents(eventType='keyboard')&amp;#10;# Start off with no falseStarts&amp;#10;falseStart = False&amp;#10;sLastKey = &quot;&quot;&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="#if event.getKeys(keyList=['space']):&amp;#10;#    #sLastKey = 'space'&amp;#10;#    core.quit()&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="# Space key during the wait period is a falseStart.&amp;#10;keys=event.getKeys(keyList=['space'])&amp;#10;if keys:&amp;#10;    falseStart = True&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="# If user typed a key during the wait period that's a false start.&amp;#10;keys=event.getKeys(keyList=['space'])&amp;#10;if keys:&amp;#10;    falseStart = True&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="&amp;#10;" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="wait_code" valType="code"/>
       </CodeComponent>
