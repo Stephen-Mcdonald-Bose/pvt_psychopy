@@ -32,12 +32,12 @@
   <Routines>
     <Routine name="trial">
       <CodeComponent name="trial_code">
-        <Param name="Begin Experiment" updates="constant" val="# Clock to measure the reaction time.&amp;#10;rt_clock = clock.Clock()&amp;#10;# rt holds the reaction time in each frame.&amp;#10;rt = 0&amp;#10;#s_rt is a string used to display the reaction time, or an error message.&amp;#10;s_rt = &quot;&quot;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="# Clock to measure the reaction time.&amp;#10;rt_clock = clock.Clock()&amp;#10;# rt holds the reaction time in each frame.&amp;#10;rt = 0&amp;#10;#s_rt is a string used to display the reaction time, or an error message.&amp;#10;s_rt = &quot;&quot;&amp;#10;# The maximum allowed reaction time&amp;#10;MAX_RT_SEC=5  # Debugging&amp;#10;#MAX_RT_SEC=30 # From reference&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="# Reset the reaction time clock to 0.&amp;#10;rt_clock.reset()&amp;#10;# Initialze the reaction time and string&amp;#10;rt = 0&amp;#10;s_rt = &quot;&quot;&amp;#10;# If user pressed the key before we begin, that's a falseStart.&amp;#10;# Skip this routine.&amp;#10;if falseStart:&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="# trial_code update&amp;#10;# Get the current time.&amp;#10;rt = rt_clock.getTime()&amp;#10;s_rt = &quot;{0:d}&quot;.format(int(1000*rt))&amp;#10;&amp;#10;# Did the user type a key?&amp;#10;if event.getKeys(keyList=['space']):&amp;#10;    # Reaction time &lt; 100 mS is a false start.&amp;#10;    if rt &lt; 0.100:&amp;#10;        falseStart = True&amp;#10;    # Key press -&gt; end routine&amp;#10;    continueRoutine = False&amp;#10;    # Tell system to update the window. Otherwise final rt &amp;#10;    # won't be shown until after a pause.&amp;#10;    win.flip()&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="# trial_code update&amp;#10;# Get the current time.&amp;#10;rt = rt_clock.getTime()&amp;#10;s_rt = &quot;{0:d}&quot;.format(int(1000*rt))&amp;#10;&amp;#10;# Did the user type a key or has the trial timed out (30 seconds)?&amp;#10;if event.getKeys(keyList=['space']) or rt &gt; MAX_RT_SEC:&amp;#10;    # Reaction time &lt; 100 mS is a false start.&amp;#10;    if rt &lt; 0.100:&amp;#10;        falseStart = True&amp;#10;    # End routine&amp;#10;    continueRoutine = False&amp;#10;    # Tell system to update the window. Otherwise final rt &amp;#10;    # won't be shown until after a pause.&amp;#10;    win.flip()&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -168,10 +168,10 @@
     </Routine>
     <Routine name="display_rt">
       <CodeComponent name="rt_code_final">
-        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="# If the user fails to respond in MAX_RT_SEC then a tone will&amp;#10;# play. Assuming this will not happen, set the audio duration to 0.&amp;#10;# This prevents the sound from playing.&amp;#10;overrun_audio_duration_sec = 0" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="# If there was a false start, then display &quot;FS!&quot;&amp;#10;if falseStart:&amp;#10;    s_rt = &quot;FS!&quot;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# If there was a false start, then display &quot;FS!&quot;&amp;#10;if falseStart:&amp;#10;    s_rt = &quot;FS!&quot;&amp;#10;&amp;#10;overrun_audio_duration_sec = 0&amp;#10;# If the loop timed out display &quot;OVERRUN&quot;&amp;#10;if rt &gt; MAX_RT_SEC:&amp;#10;    # Start playing the audio at 0 sec to warn the user that &amp;#10;    # they took too long.&amp;#10;    overrun_audio_duration_sec = 1&amp;#10;    # Display an error message.&amp;#10;    s_rt = &quot;OVERRUN&quot;&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -231,13 +231,27 @@
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
+      <SoundComponent name="rt_sound_final">
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="name" updates="None" val="rt_sound_final" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="sound" updates="constant" val="A" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="$overrun_audio_duration_sec" valType="code"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+        <Param name="volume" updates="constant" val="1" valType="code"/>
+      </SoundComponent>
     </Routine>
     <Routine name="check_loop">
       <CodeComponent name="check_loop_code">
-        <Param name="Begin Experiment" updates="constant" val="# Total loop time in seconds. For final run this should be 180 (3min) or&amp;#10;# 600 (10 min) depending on whether doing brief or full &amp;#10;# Psychomotor Vigilance Test.&amp;#10;loop_time = 30 &amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="if loop_clock.getTime() &gt;= loop_time:&amp;#10;    trials.finished=True&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="if loop_clock.getTime() &gt;= LOOP_REPEAT_TIME_SEC:&amp;#10;    trials.finished=True&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -254,7 +268,7 @@
         <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="# Keep running trials until loop_clock reaches the time set in check_loop.&amp;#10;loop_clock = clock.Clock()" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# Keep running trials until loop_clock reaches the time set in check_loop.&amp;#10;loop_clock = clock.Clock()&amp;#10;# The time to repeat the trials. 3 minutes for brief PVT, 10 minutes for regular PVt.&amp;#10;LOOP_REPEAT_TIME_SEC = 30; # while debugging&amp;#10;#LOOP_REPEAT_TIME_SEC = 180 # Brief PVT&amp;#10;#LOOP_REPEAT_TIME_SEC = 600 # Regular PVT" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -298,7 +312,7 @@
         <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
         <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
         <Param name="shape" updates="constant" val="regular polygon..." valType="str"/>
-        <Param name="size" updates="constant" val="(0.4, 0.2)" valType="code"/>
+        <Param name="size" updates="constant" val="(0.6, 0.2)" valType="code"/>
         <Param name="startEstim" updates="None" val="" valType="code"/>
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
         <Param name="startVal" updates="None" val="0.0" valType="code"/>

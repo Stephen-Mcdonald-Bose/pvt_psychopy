@@ -8,9 +8,9 @@ Watch the red square on the screen. When yellow digits appear in the square tap 
 
 If you hit the space bar too soon, FS! (False Start) will be displayed instead of the time. 
 
+If you take too long to hit the space bar, a tone will play and OVERRUN will be displayed.
+
 ## To-do
-* Warn the user if the reaction time is < 100mSec. It will be counted as a false start.
-* Stop the timer after 30 seconds if they haven't pressed a button.
 * User should be warned to release the button and the test paused until that is done.
 * record button release * if longer then 3 sec then don't use in analysis
 * For user, input ID# instead of name. Maybe use face recognition to fill in ID#?
@@ -18,7 +18,7 @@ If you hit the space bar too soon, FS! (False Start) will be displayed instead o
 * Adjust the fixation point and feedback to be isoluminant. This will make it more useful to use pupillometry as another way of measuring sleepiness.
 * switch to a button with better timing than the keyboard.
 
-## Reference
+## References
 Basner, Mathias, and David F. Dinges. "Maximizing sensitivity of the psychomotor vigilance test (PVT) to sleep loss." Sleep 34, no. 5 (2011): 581*591.
 
 Basner, Mathias, Daniel Mollicone, and David F. Dinges. "Validity and sensitivity of a brief psychomotor vigilance test (PVT-B) to total and partial sleep deprivation." Acta astronautica 69, no. 11-12 (2011): 949-959.
