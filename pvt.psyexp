@@ -31,20 +31,20 @@
   </Settings>
   <Routines>
     <Routine name="trial">
-      <CodeComponent name="code">
+      <CodeComponent name="trial_code">
         <Param name="Begin Experiment" updates="constant" val="react_clock = clock.Clock()&amp;#10;rt = 0&amp;#10;s_rt = &quot;&quot;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="react_clock.reset()" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="react_clock.reset()&amp;#10;rt = 0&amp;#10;s_rt = &quot;&quot;&amp;#10;# If user pressed the key before we begin, that's a falseStart.&amp;#10;# Skip this routine.&amp;#10;if falseStart:&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="rt = react_clock.getTime()&amp;#10;s_rt = &quot;{0:d}&quot;.format(int(1000*rt))" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="# Need one last winFlip to include the final time.&amp;#10;# Tell the components to draw themselves (PsychoPY turns this&amp;#10;# off when continueRoutine = False.&amp;#10;for thisComponent in trialComponents:&amp;#10;    if hasattr(thisComponent, &quot;setAutoDraw&quot;):&amp;#10;        thisComponent.setAutoDraw(True)&amp;#10;win.flip()&amp;#10;for thisComponent in trialComponents:&amp;#10;    if hasattr(thisComponent, &quot;setAutoDraw&quot;):&amp;#10;        thisComponent.setAutoDraw(False)&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="# Accorrding to Dinges paper (see Reference in README.md) anything&amp;#10;# &lt; 100 mSec is also false start.&amp;#10;if rt &lt; 0.1:&amp;#10;    falseStart = True&amp;#10;&amp;#10;if falseStart:&amp;#10;    s_rt = &quot;FS!&quot;&amp;#10;else:&amp;#10;    # Update s_rt for next routine&amp;#10;    s_rt = &quot;{0:d}&quot;.format(int(1000*rt))&amp;#10;    # Need one last winFlip to include the final time.&amp;#10;    # Otherwise see pause and then hop when show final time in next routine.&amp;#10;    # Tell the components to draw themselves (PsychoPY turns this&amp;#10;    # off when continueRoutine = False.&amp;#10;    for thisComponent in trialComponents:&amp;#10;        if hasattr(thisComponent, &quot;setAutoDraw&quot;):&amp;#10;            thisComponent.setAutoDraw(True)&amp;#10;    win.flip()&amp;#10;    for thisComponent in trialComponents:&amp;#10;        if hasattr(thisComponent, &quot;setAutoDraw&quot;):&amp;#10;            thisComponent.setAutoDraw(False)&amp;#10;    &amp;#10;# Force a redraw of rt_rect_active so it has no digits for beginning of next loop.&amp;#10;# rt_rect_active.draw()&amp;#10;&amp;#10;&amp;#10;# Dinges paper &lt;100 mSec = false start.&amp;#10;if rt &lt; 0.1:&amp;#10;    s_rt = &quot;False start!&quot;&amp;#10;else:&amp;#10;    s_rt = &quot;{0:d}&quot;.format(int(1000*rt))&amp;#10;" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="name" updates="None" val="code" valType="code"/>
+        <Param name="name" updates="None" val="trial_code" valType="code"/>
       </CodeComponent>
       <PolygonComponent name="rt_rect_active">
         <Param name="disabled" updates="None" val="False" valType="bool"/>
@@ -114,35 +114,8 @@
         <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
       </KeyboardComponent>
     </Routine>
-    <Routine name="random_wait">
-      <PolygonComponent name="rt_rect_empty">
-        <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="durationEstim" updates="None" val="" valType="code"/>
-        <Param name="fillColor" updates="constant" val="$[1.000,-1.000,-1.000]" valType="str"/>
-        <Param name="fillColorSpace" updates="constant" val="rgb" valType="str"/>
-        <Param name="interpolate" updates="constant" val="linear" valType="str"/>
-        <Param name="lineColor" updates="constant" val="$[1,1,1]" valType="str"/>
-        <Param name="lineColorSpace" updates="constant" val="rgb" valType="str"/>
-        <Param name="lineWidth" updates="constant" val="1" valType="code"/>
-        <Param name="nVertices" updates="constant" val="4" valType="int"/>
-        <Param name="name" updates="None" val="rt_rect_empty" valType="code"/>
-        <Param name="opacity" updates="constant" val="1" valType="code"/>
-        <Param name="ori" updates="constant" val="0" valType="code"/>
-        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
-        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
-        <Param name="shape" updates="constant" val="regular polygon..." valType="str"/>
-        <Param name="size" updates="constant" val="(0.4, 0.2)" valType="code"/>
-        <Param name="startEstim" updates="None" val="" valType="code"/>
-        <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="code"/>
-        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="$1.0+8*random()" valType="code"/>
-        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="units" updates="None" val="from exp settings" valType="str"/>
-      </PolygonComponent>
-    </Routine>
     <Routine name="thanks">
-      <TextComponent name="text">
+      <TextComponent name="thanks_text">
         <Param name="color" updates="constant" val="white" valType="str"/>
         <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
@@ -151,7 +124,7 @@
         <Param name="font" updates="constant" val="Arial" valType="str"/>
         <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
         <Param name="letterHeight" updates="constant" val="0.05" valType="code"/>
-        <Param name="name" updates="None" val="text" valType="code"/>
+        <Param name="name" updates="None" val="thanks_text" valType="code"/>
         <Param name="opacity" updates="constant" val="1" valType="code"/>
         <Param name="ori" updates="constant" val="0" valType="code"/>
         <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
@@ -192,14 +165,14 @@
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
-      <KeyboardComponent name="key_resp">
+      <KeyboardComponent name="instruct_resp">
         <Param name="allowedKeys" updates="constant" val="'space'" valType="code"/>
         <Param name="correctAns" updates="constant" val="" valType="str"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
         <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
-        <Param name="name" updates="None" val="key_resp" valType="code"/>
+        <Param name="name" updates="None" val="instruct_resp" valType="code"/>
         <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
         <Param name="startEstim" updates="None" val="" valType="code"/>
         <Param name="startType" updates="None" val="time (s)" valType="str"/>
@@ -257,13 +230,13 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="1.0" valType="code"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="set every repeat" val="&quot;{0:d}&quot;.format(int(1000*$rt))" valType="str"/>
+        <Param name="text" updates="set every repeat" val="$s_rt" valType="str"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
     </Routine>
     <Routine name="check_loop">
-      <CodeComponent name="check_loop_time">
+      <CodeComponent name="check_loop_code">
         <Param name="Begin Experiment" updates="constant" val="loop_time = 1*60  #Total time in seconds that we'll take samples. Last trial may run over this time.&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
@@ -276,7 +249,7 @@
         <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="name" updates="None" val="check_loop_time" valType="code"/>
+        <Param name="name" updates="None" val="check_loop_code" valType="code"/>
       </CodeComponent>
     </Routine>
     <Routine name="initialize_loop">
@@ -296,6 +269,48 @@
         <Param name="name" updates="None" val="initialize_loop_clock" valType="code"/>
       </CodeComponent>
     </Routine>
+    <Routine name="wait">
+      <CodeComponent name="wait_code">
+        <Param name="Begin Experiment" updates="constant" val="falseStart = False&amp;#10;keys=[]&amp;#10;sLastKey = &quot;&quot;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# Clear any pending keyboard events&amp;#10;event.clearEvents(eventType='keyboard')&amp;#10;# Start off with no falseStarts&amp;#10;falseStart = False&amp;#10;sLastKey = &quot;&quot;&amp;#10;" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="#if event.getKeys(keyList=['space']):&amp;#10;#    #sLastKey = 'space'&amp;#10;#    core.quit()&amp;#10;" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="# If user typed a key during the wait period that's a false start.&amp;#10;keys=event.getKeys(keyList=['space'])&amp;#10;if keys:&amp;#10;    falseStart = True&amp;#10;" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="wait_code" valType="code"/>
+      </CodeComponent>
+      <PolygonComponent name="rt_rect_empty">
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="fillColor" updates="constant" val="$[1.000,-1.000,-1.000]" valType="str"/>
+        <Param name="fillColorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="interpolate" updates="constant" val="linear" valType="str"/>
+        <Param name="lineColor" updates="constant" val="$[1,1,1]" valType="str"/>
+        <Param name="lineColorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="lineWidth" updates="constant" val="1" valType="code"/>
+        <Param name="nVertices" updates="constant" val="4" valType="int"/>
+        <Param name="name" updates="None" val="rt_rect_empty" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="shape" updates="constant" val="regular polygon..." valType="str"/>
+        <Param name="size" updates="constant" val="(0.4, 0.2)" valType="code"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="$1.0+8*random()" valType="code"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+      </PolygonComponent>
+    </Routine>
   </Routines>
   <Flow>
     <Routine name="instructions"/>
@@ -311,7 +326,7 @@
       <Param name="name" updates="None" val="trials" valType="code"/>
       <Param name="random seed" updates="None" val="" valType="code"/>
     </LoopInitiator>
-    <Routine name="random_wait"/>
+    <Routine name="wait"/>
     <Routine name="trial"/>
     <Routine name="display_rt"/>
     <Routine name="check_loop"/>
