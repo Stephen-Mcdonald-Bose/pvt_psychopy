@@ -11,6 +11,7 @@ If you hit the space bar too soon, FS! (False Start) will be displayed instead o
 If you take too long to hit the space bar, a tone will play and OVERRUN will be displayed.
 
 ## To-do
+* Is the necessary data being written to the log file?
 * User should be warned to release the button and the test paused until that is done.
 * record button release * if longer then 3 sec then don't use in analysis
 * For user, input ID# instead of name. Maybe use face recognition to fill in ID#?
