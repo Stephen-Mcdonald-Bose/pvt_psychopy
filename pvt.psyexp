@@ -32,17 +32,17 @@
   <Routines>
     <Routine name="trial">
       <CodeComponent name="trial_code">
-        <Param name="Begin Experiment" updates="constant" val="react_clock = clock.Clock()&amp;#10;rt = 0&amp;#10;s_rt = &quot;&quot;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="# Clock to measure the reaction time.&amp;#10;rt_clock = clock.Clock()&amp;#10;# rt holds the reaction time in each frame.&amp;#10;rt = 0&amp;#10;#s_rt is a string used to display the reaction time, or an error message.&amp;#10;s_rt = &quot;&quot;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="react_clock.reset()&amp;#10;rt = 0&amp;#10;s_rt = &quot;&quot;&amp;#10;# If user pressed the key before we begin, that's a falseStart.&amp;#10;# Skip this routine.&amp;#10;if falseStart:&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# Reset the reaction time clock to 0.&amp;#10;rt_clock.reset()&amp;#10;# Initialze the reaction time and string&amp;#10;rt = 0&amp;#10;s_rt = &quot;&quot;&amp;#10;# If user pressed the key before we begin, that's a falseStart.&amp;#10;# Skip this routine.&amp;#10;if falseStart:&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="# trial_code update&amp;#10;rt = react_clock.getTime()&amp;#10;s_rt = &quot;{0:d}&quot;.format(int(1000*rt))" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="# trial_code update&amp;#10;# Get the current time.&amp;#10;rt = rt_clock.getTime()&amp;#10;s_rt = &quot;{0:d}&quot;.format(int(1000*rt))&amp;#10;&amp;#10;# Did the user type a key?&amp;#10;if event.getKeys(keyList=['space']):&amp;#10;    # Reaction time &lt; 100 mS is a false start.&amp;#10;    if rt &lt; 0.100:&amp;#10;        falseStart = True&amp;#10;    # Key press -&gt; end routine&amp;#10;    continueRoutine = False&amp;#10;    # Tell system to update the window. Otherwise final rt &amp;#10;    # won't be shown until after a pause.&amp;#10;    win.flip()&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="End Routine" updates="constant" val="# Accorrding to Dinges paper (see Reference in README.md) anything&amp;#10;# &lt; 100 mSec is also false start.&amp;#10;if rt &lt; 0.1:&amp;#10;    falseStart = True&amp;#10;&amp;#10;if falseStart:&amp;#10;    s_rt = &quot;FS!&quot;&amp;#10;else:&amp;#10;    # Update s_rt for next routine&amp;#10;    s_rt = &quot;{0:d}&quot;.format(int(1000*rt))&amp;#10;    # Need one last winFlip to include the final time.&amp;#10;    # Otherwise see pause and then hop when show final time in next routine.&amp;#10;    # Tell the components to draw themselves (PsychoPY turns this&amp;#10;    # off when continueRoutine = False.&amp;#10;    for thisComponent in trialComponents:&amp;#10;        if hasattr(thisComponent, &quot;setAutoDraw&quot;):&amp;#10;            thisComponent.setAutoDraw(True)&amp;#10;    win.flip()&amp;#10;    for thisComponent in trialComponents:&amp;#10;        if hasattr(thisComponent, &quot;setAutoDraw&quot;):&amp;#10;            thisComponent.setAutoDraw(False)&amp;#10;    &amp;#10;# Force a redraw of rt_rect_active so it has no digits for beginning of next loop.&amp;#10;# rt_rect_active.draw()&amp;#10;&amp;#10;&amp;#10;# Dinges paper &lt;100 mSec = false start.&amp;#10;if rt &lt; 0.1:&amp;#10;    s_rt = &quot;False start!&quot;&amp;#10;else:&amp;#10;    s_rt = &quot;{0:d}&quot;.format(int(1000*rt))&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="name" updates="None" val="trial_code" valType="code"/>
       </CodeComponent>
@@ -95,24 +95,6 @@
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
-      <KeyboardComponent name="rt_resp">
-        <Param name="allowedKeys" updates="constant" val="'space'" valType="code"/>
-        <Param name="correctAns" updates="constant" val="" valType="str"/>
-        <Param name="disabled" updates="None" val="False" valType="bool"/>
-        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
-        <Param name="durationEstim" updates="None" val="" valType="code"/>
-        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
-        <Param name="name" updates="None" val="rt_resp" valType="code"/>
-        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
-        <Param name="startEstim" updates="None" val="" valType="code"/>
-        <Param name="startType" updates="None" val="time (s)" valType="str"/>
-        <Param name="startVal" updates="None" val="0.0" valType="code"/>
-        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
-        <Param name="stopVal" updates="constant" val="" valType="code"/>
-        <Param name="store" updates="constant" val="last key" valType="str"/>
-        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
-        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
-      </KeyboardComponent>
     </Routine>
     <Routine name="thanks">
       <TextComponent name="thanks_text">
@@ -185,6 +167,21 @@
       </KeyboardComponent>
     </Routine>
     <Routine name="display_rt">
+      <CodeComponent name="rt_code_final">
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# If there was a false start, then display &quot;FS!&quot;&amp;#10;if falseStart:&amp;#10;    s_rt = &quot;FS!&quot;" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="rt_code_final" valType="code"/>
+      </CodeComponent>
       <PolygonComponent name="rt_rect_final">
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="durationEstim" updates="None" val="" valType="code"/>
@@ -237,7 +234,7 @@
     </Routine>
     <Routine name="check_loop">
       <CodeComponent name="check_loop_code">
-        <Param name="Begin Experiment" updates="constant" val="loop_time = 1*60  #Total time in seconds that we'll take samples. Last trial may run over this time.&amp;#10;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="# Total loop time in seconds. For final run this should be 180 (3min) or&amp;#10;# 600 (10 min) depending on whether doing brief or full &amp;#10;# Psychomotor Vigilance Test.&amp;#10;loop_time = 30 &amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Routine" updates="constant" val="if loop_clock.getTime() &gt;= loop_time:&amp;#10;    trials.finished=True&amp;#10;" valType="extendedCode"/>
@@ -257,7 +254,7 @@
         <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="loop_clock = clock.Clock()" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# Keep running trials until loop_clock reaches the time set in check_loop.&amp;#10;loop_clock = clock.Clock()" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
@@ -271,12 +268,12 @@
     </Routine>
     <Routine name="wait">
       <CodeComponent name="wait_code">
-        <Param name="Begin Experiment" updates="constant" val="falseStart = False&amp;#10;keys=[]&amp;#10;sLastKey = &quot;&quot;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="# Keep track of whether the user presses the key too early.&amp;#10;falseStart = False&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="# Clear any pending keyboard events&amp;#10;event.clearEvents(eventType='keyboard')&amp;#10;# Start off with no falseStarts&amp;#10;falseStart = False&amp;#10;sLastKey = &quot;&quot;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# Clear any pending keyboard events&amp;#10;event.clearEvents(eventType='keyboard')&amp;#10;falseStart = False&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Py" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="# Space key during the wait period is a falseStart.&amp;#10;keys=event.getKeys(keyList=['space'])&amp;#10;if keys:&amp;#10;    falseStart = True&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="# Space key during the wait period is a falseStart.&amp;#10;if event.getKeys(keyList=['space']):&amp;#10;    falseStart = True&amp;#10;    # Exit early.&amp;#10;    continueRoutine = False&amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
