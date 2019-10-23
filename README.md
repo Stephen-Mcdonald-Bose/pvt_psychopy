@@ -4,7 +4,7 @@ Psychomotor Vigilance Test (PVT) using PsychoPy
 This test uses reaction time and vigilance to measure the sleepiness of the subject. 
 
 ## Instructions
-Watch the red square on the screen. When yellow digits appear in the square tap on the space bar as quickly as you can. The digits will display the number of milli-seconds it took you to respond. 
+Watch the red square on the screen. When yellow digits appear tap on the space bar as quickly as you can. The digits will display the number of milli-seconds it took you to respond. 
 
 If you hit the space bar too soon, FS! (False Start) will be displayed instead of the time. 
 
